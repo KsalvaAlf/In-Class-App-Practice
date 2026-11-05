@@ -12,7 +12,7 @@ let serialPort = null;
 let serialReader = null;
 let serialText = "";
 let activeAnimation = null;
-let queuedAction = null;
+let waitingForCharacterChoice = false;
 let lastCharacter = "";
 let logRetryTimer = null;
 const pendingLogs = [];
@@ -163,14 +163,12 @@ function handleSerialDisconnect() {
   connectButton.textContent = "Reconnect ESP32";
   showError("ESP32 disconnected. Stop activities and reconnect.", 10000);
   activeAnimation = null;
-  queuedAction = null;
+  waitingForCharacterChoice = false;
   stage.replaceChildren();
   inputPanel.classList.remove("hidden");
 }
 
 function handleSerialEvent(message) {
-  showError(`ESP32 event received: ${message}`, 3000);
-
   const normalized = message.toLowerCase();
   let actionName = null;
 
@@ -196,10 +194,7 @@ function handleSerialEvent(message) {
     pressCount: 2
   };
 
-  if (activeAnimation) {
-    queuedAction = action;
-    return;
-  }
+  if (activeAnimation || waitingForCharacterChoice) return;
   runAction(action);
 }
 
@@ -237,17 +232,13 @@ async function runAction(action) {
   activeAnimation = null;
   if (action.name === "SIDE_EXPLOSION") {
     stage.replaceChildren();
+    waitingForCharacterChoice = true;
     finishCharacterSelection(character);
+    waitingForCharacterChoice = false;
   } else {
     stage.replaceChildren();
     inputPanel.classList.remove("hidden");
     characterInput.focus();
-  }
-
-  if (queuedAction) {
-    const next = queuedAction;
-    queuedAction = null;
-    runAction(next);
   }
 }
 
@@ -259,7 +250,7 @@ async function redBurst() {
   const burst = document.createElement("div");
   burst.className = "red-burst";
   stage.append(burst);
-  await wait(2000);
+  await wait(1600);
   burst.remove();
 }
 
@@ -269,14 +260,14 @@ async function sideExplosion(character) {
   const green = document.createElement("div");
   green.className = "side-wave green";
   stage.append(blue, green);
-  await wait(3000);
+  await wait(2200);
 
   blue.remove();
   green.remove();
   const collision = document.createElement("div");
   collision.className = "collision";
   stage.append(collision);
-  await wait(1000);
+  await wait(800);
   collision.remove();
 
   const appleWrap = document.createElement("div");
@@ -289,7 +280,7 @@ async function sideExplosion(character) {
   `;
   appleWrap.querySelector(".apple-character").textContent = character;
   stage.append(appleWrap);
-  await wait(4000);
+  await wait(3000);
   appleWrap.remove();
 }
 

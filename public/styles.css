@@ -122,7 +122,7 @@ body {
   box-shadow:
     0 0 25px 12px rgba(255, 64, 42, .65),
     0 0 100px 35px rgba(255, 36, 18, .4);
-  animation: redBurst 2s cubic-bezier(.12,.68,.32,1) forwards;
+  animation: redBurst 1.6s cubic-bezier(.12,.68,.32,1) forwards;
 }
 
 .red-burst::before,
@@ -137,7 +137,7 @@ body {
   background: repeating-conic-gradient(from 0deg, #ff4a2f 0 3deg, transparent 3deg 12deg);
   border-radius: 50%;
   filter: drop-shadow(0 0 8px #ff2a18);
-  animation: rays 2s ease-out forwards;
+  animation: rays 1.6s ease-out forwards;
 }
 
 .red-burst::after {
@@ -172,13 +172,13 @@ body {
 .side-wave.blue {
   left: 0;
   background: radial-gradient(ellipse at 0% 50%, #fff 0 2%, #58d5ff 7%, #186be3 35%, transparent 70%);
-  animation: waveLeft 3s cubic-bezier(.2,.8,.2,1) forwards;
+  animation: waveLeft 2.2s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
 .side-wave.green {
   right: 0;
   background: radial-gradient(ellipse at 100% 50%, #fff 0 2%, #7cff78 7%, #20b947 35%, transparent 70%);
-  animation: waveRight 3s cubic-bezier(.2,.8,.2,1) forwards;
+  animation: waveRight 2.2s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
 @keyframes waveLeft {

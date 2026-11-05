@@ -8,9 +8,9 @@ const uint8_t BUZZER_PIN = 32;
 
 const uint32_t DEBOUNCE_MS = 35;
 const uint32_t DOUBLE_PRESS_WINDOW_MS = 1000;
-const uint32_t RED_BURST_MS = 2000;
-const uint32_t SIDE_APPROACH_MS = 3000;
-const uint32_t FINAL_RED_MS = 600;
+const uint32_t RED_BURST_MS = 1600;
+const uint32_t SIDE_APPROACH_MS = 2200;
+const uint32_t FINAL_RED_MS = 700;
 
 bool lastButtonReading = HIGH;
 bool stableButtonState = HIGH;
@@ -93,6 +93,12 @@ void handleButton() {
   stableButtonState = reading;
   if (stableButtonState != LOW) return;
 
+  if (actionRunning) {
+    waitingForSecondPress = false;
+    pressCountInWindow = 0;
+    return;
+  }
+
   if (!waitingForSecondPress) {
     waitingForSecondPress = true;
     firstPressMs = now;
@@ -119,7 +125,7 @@ void loop() {
   }
 
   if (actionRunning && pressCountInWindow == 1 && !redToneStarted) {
-    tone(BUZZER_PIN, 900, 250);
+    tone(BUZZER_PIN, 800, 150);
     redToneStarted = true;
   }
 
@@ -127,17 +133,17 @@ void loop() {
 
   if (pressCountInWindow == 2) {
     uint32_t elapsed = now - actionStartMs;
-    if (elapsed >= 350 && !sideToneOneStarted) {
-      tone(BUZZER_PIN, 400, 220);
+    if (elapsed >= 300 && !sideToneOneStarted) {
+      tone(BUZZER_PIN, 400, 140);
       sideToneOneStarted = true;
-    } else if (elapsed >= 1100 && !sideToneTwoStarted) {
-      tone(BUZZER_PIN, 650, 220);
+    } else if (elapsed >= 900 && !sideToneTwoStarted) {
+      tone(BUZZER_PIN, 650, 140);
       sideToneTwoStarted = true;
-    } else if (elapsed >= 2000 && !sideToneThreeStarted) {
-      tone(BUZZER_PIN, 900, 220);
+    } else if (elapsed >= 1600 && !sideToneThreeStarted) {
+      tone(BUZZER_PIN, 900, 140);
       sideToneThreeStarted = true;
     } else if (elapsed >= SIDE_APPROACH_MS && !finalBoomStarted) {
-      tone(BUZZER_PIN, 110, 600);
+      tone(BUZZER_PIN, 110, 350);
       finalBoomStarted = true;
     }
     if (elapsed < SIDE_APPROACH_MS) {

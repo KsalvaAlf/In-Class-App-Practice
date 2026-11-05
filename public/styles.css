@@ -1,0 +1,351 @@
+:root {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 110%, rgba(255, 239, 184, 0.55), transparent 38%),
+    linear-gradient(180deg, #6eb8d9 0%, #b4dce8 55%, #f3d7aa 100%);
+}
+
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.12), transparent 45%);
+}
+
+.connect-button {
+  position: absolute;
+  z-index: 30;
+  top: 20px;
+  right: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: rgba(22, 55, 86, 0.78);
+  color: white;
+  font: 700 15px Arial, sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.connect-button:hover {
+  background: rgba(22, 55, 86, 0.95);
+}
+
+.input-panel {
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  width: min(420px, calc(100vw - 40px));
+  text-align: center;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.input-panel.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -54%);
+}
+
+.input-panel label {
+  display: block;
+  margin-bottom: 12px;
+  color: #163956;
+  font-size: clamp(20px, 3vw, 34px);
+  text-shadow: 0 1px 3px rgba(255,255,255,.8);
+}
+
+#characterInput {
+  width: 180px;
+  height: 80px;
+  border: 3px solid rgba(255,255,255,.95);
+  border-radius: 18px;
+  background: rgba(255,255,255,.78);
+  color: #163956;
+  font-size: 52px;
+  text-align: center;
+  outline: none;
+  box-shadow: 0 12px 40px rgba(50, 95, 122, .18);
+}
+
+#characterInput:focus {
+  border-color: #fff;
+  box-shadow: 0 0 0 5px rgba(255,255,255,.28), 0 12px 40px rgba(50,95,122,.2);
+}
+
+.input-message {
+  min-height: 20px;
+  margin: 12px 0 0;
+  color: #254a62;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.animation-stage {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  pointer-events: none;
+}
+
+.red-burst {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #fff 0 4%, #ffd2a1 5% 9%, #ff3c24 10% 25%, transparent 26%);
+  box-shadow:
+    0 0 25px 12px rgba(255, 64, 42, .65),
+    0 0 100px 35px rgba(255, 36, 18, .4);
+  animation: redBurst 2s cubic-bezier(.12,.68,.32,1) forwards;
+}
+
+.red-burst::before,
+.red-burst::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  background: repeating-conic-gradient(from 0deg, #ff4a2f 0 3deg, transparent 3deg 12deg);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 8px #ff2a18);
+  animation: rays 2s ease-out forwards;
+}
+
+.red-burst::after {
+  width: 35px;
+  height: 35px;
+  transform: translate(-50%, -50%) rotate(7deg);
+  opacity: .75;
+}
+
+@keyframes redBurst {
+  0% { width: 20px; height: 20px; opacity: 0; }
+  12% { opacity: 1; }
+  70% { width: min(65vw, 900px); height: min(65vw, 900px); opacity: 1; }
+  100% { width: min(70vw, 1000px); height: min(70vw, 1000px); opacity: 0; }
+}
+
+@keyframes rays {
+  0% { width: 40px; height: 40px; opacity: 0; transform: translate(-50%, -50%) scale(.2); }
+  15% { opacity: 1; }
+  100% { width: min(70vw, 950px); height: min(70vw, 950px); opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+
+.side-wave {
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  width: 55%;
+  opacity: .94;
+  filter: blur(3px);
+}
+
+.side-wave.blue {
+  left: 0;
+  background: radial-gradient(ellipse at 0% 50%, #fff 0 2%, #58d5ff 7%, #186be3 35%, transparent 70%);
+  animation: waveLeft 3s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.side-wave.green {
+  right: 0;
+  background: radial-gradient(ellipse at 100% 50%, #fff 0 2%, #7cff78 7%, #20b947 35%, transparent 70%);
+  animation: waveRight 3s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes waveLeft {
+  0% { transform: translateX(-75%); }
+  100% { transform: translateX(82%); }
+}
+
+@keyframes waveRight {
+  0% { transform: translateX(75%); }
+  100% { transform: translateX(-82%); }
+}
+
+.collision {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #fff 0 5%, #fff27a 8%, #ff9a36 18%, #ff4436 42%, transparent 70%);
+  box-shadow: 0 0 100px 70px rgba(255, 181, 54, .7);
+  animation: collision 1s ease-out forwards;
+}
+
+@keyframes collision {
+  0% { transform: translate(-50%, -50%) scale(.2); opacity: 1; }
+  55% { transform: translate(-50%, -50%) scale(18); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(30); opacity: 0; }
+}
+
+.apple-wrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  animation: appleReveal 4s ease-out forwards;
+}
+
+.apple {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  width: 220px;
+  height: 205px;
+  transform: translateX(-50%);
+  border-radius: 46% 46% 48% 48% / 54% 54% 46% 46%;
+  background:
+    radial-gradient(ellipse at 35% 22%, rgba(255,255,255,.82) 0 4%, transparent 14%),
+    radial-gradient(ellipse at 64% 67%, rgba(114,0,0,.42), transparent 18%),
+    linear-gradient(135deg, #ff655d 0%, #d91f20 48%, #8c0909 100%);
+  box-shadow: inset 18px -18px 30px rgba(85,0,0,.32), 0 24px 55px rgba(74,20,20,.35);
+}
+
+.apple::before,
+.apple::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  width: 112px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.apple::before {
+  left: 4px;
+  transform: rotate(20deg);
+  background: radial-gradient(ellipse at bottom, rgba(255,255,255,.18), transparent 55%);
+  border-top: 8px solid rgba(120,0,0,.3);
+}
+
+.apple::after {
+  right: 4px;
+  transform: rotate(-20deg);
+  border-top: 8px solid rgba(120,0,0,.3);
+}
+
+.apple-stem {
+  position: absolute;
+  z-index: 2;
+  left: 52%;
+  top: 10px;
+  width: 18px;
+  height: 70px;
+  border-radius: 70% 20% 60% 30%;
+  transform: translateX(-50%) rotate(10deg);
+  background: linear-gradient(90deg, #513018, #9a6335 55%, #4b2816);
+  box-shadow: inset 3px 0 4px rgba(255,255,255,.18);
+}
+
+.apple-leaf {
+  position: absolute;
+  z-index: 3;
+  left: calc(52% + 22px);
+  top: 24px;
+  width: 70px;
+  height: 38px;
+  border-radius: 80% 8% 80% 8%;
+  transform: rotate(-12deg);
+  background: linear-gradient(135deg, #8bcf58, #287e39 70%);
+  box-shadow: inset -5px -4px 12px rgba(0,60,0,.25);
+}
+
+.apple-character {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 56%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 250, 229, .96);
+  font-size: clamp(88px, 12vw, 140px);
+  line-height: 1;
+  text-shadow:
+    0 2px 0 #fff,
+    0 8px 12px rgba(90,0,0,.55),
+    0 0 18px rgba(255,255,255,.5);
+  font-weight: 900;
+}
+
+@keyframes appleReveal {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.2) rotate(-6deg); }
+  25% { opacity: 1; transform: translate(-50%, -50%) scale(1.08) rotate(2deg); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+}
+
+.error-banner {
+  position: absolute;
+  z-index: 40;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 40px);
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: rgba(35, 43, 55, .9);
+  color: white;
+  font: 14px Arial, sans-serif;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.error-banner.visible {
+  opacity: 1;
+}
+
+.blocking-overlay {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 39, 54, .96);
+  text-align: center;
+}
+
+.blocking-overlay[hidden] {
+  display: none;
+}
+
+.blocking-overlay div {
+  max-width: 520px;
+  padding: 30px;
+}
+
+.blocking-overlay h1 {
+  margin-top: 0;
+}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ESP32 Character Explosion</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main id="scene" class="scene">
+      <button id="connectButton" class="connect-button" type="button">Connect ESP32</button>
+
+      <section id="inputPanel" class="input-panel" aria-label="Character input">
+        <label for="characterInput">Enter one character</label>
+        <input
+          id="characterInput"
+          type="text"
+          maxlength="1"
+          autocomplete="off"
+          aria-describedby="inputMessage"
+        />
+        <p id="inputMessage" class="input-message">Press the ESP32 button to begin</p>
+      </section>
+
+      <section id="animationStage" class="animation-stage" aria-live="polite"></section>
+
+      <div id="errorBanner" class="error-banner" role="status" aria-live="polite"></div>
+      <div id="serverOverlay" class="blocking-overlay" hidden>
+        <div>
+          <h1>Local server unavailable</h1>
+          <p>Refresh this page after the server is running on http://localhost:3000.</p>
+        </div>
+      </div>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

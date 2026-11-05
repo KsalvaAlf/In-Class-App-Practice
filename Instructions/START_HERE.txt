@@ -1,0 +1,15 @@
+TESTING APP - START HERE
+
+Open this app in Chrome or Edge:
+http://localhost:3000
+
+1. Double-click "Start Testing app.cmd".
+2. Enter exactly one character.
+3. Click "Connect ESP32".
+4. Select the ESP32 USB-SERIAL CH340 port.
+5. Press the physical button.
+
+IMPORTANT
+- This address is local to this computer only.
+- Other computers need the app hosted online with an HTTPS address.
+- Each person needs Chrome or Edge and their own ESP32 connected by USB.
